@@ -1,0 +1,25 @@
+<?php
+
+/** Implements hook_luggage_resources_dom_data()
+*   A good testing url for this is https://www.amazon.com/gp/product/B00U6DI4QS/ref=s9_simh_gw_g21_i3_r?ie=UTF8&fpl=fresh&pf_rd_m=ATVPDKIKX0DER&pf_rd_s=&pf_rd_r=T2TXC52R5XTVCRBGM5M9&pf_rd_t=36701&pf_rd_p=6aad23bd-3035-4a40-b691-0eefb1a18396&pf_rd_i=desktop
+*/
+function resources_plugin_test_luggage_resources_dom_data($doc, &$data) {
+  $parsed = parse_url($data['return']['url_actually_used']);
+  if ($parsed['host'] == 'www.amazon.com') {
+    $product_image_element = $doc->getElementByID('landingImage');
+    if ($product_image_element !== NULL) {
+      $data['return']['preferred_screenshot_url'] = $product_image_element->getAttribute('data-old-hires');
+    }
+
+    // No need to parse out description since Amazon puts it into meta tag
+    // in <head> element, so luggage_resources will already have parsed it.
+
+    /**
+    $product_description_element = $doc->getElementByID('idGoesHere');
+    if ($product_description_element !== NULL) {
+      $description = check_plain($product_description_element->nodeValue);
+      $data['meta']['name']['description'] = $description;
+    }
+    **/
+  }
+}

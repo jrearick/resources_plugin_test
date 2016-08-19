@@ -1,0 +1,3 @@
+name = resources_plugin_test
+description = resources_plugin_test module
+core = 7.x
